@@ -10,22 +10,40 @@ import Data.Text
 import GHC.Generics (Generic)
 import qualified Zero.Server as Server
 
-data Person = Person {name :: String, age :: Int}
+data CashFlow = CashFlow {mode :: String, description :: String, value :: Int}
   deriving (Generic, Aeson.FromJSON, Aeson.ToJSON)
 
-myHandler :: Server.Request -> Server.Response
-myHandler req =
-  Server.stringResponse result
+data Account = Account [CashFlow]
+  deriving (Generic, Aeson.FromJSON, Aeson.ToJSON)
+
+addCashFlow :: Account -> Server.Request -> (Account, Server.Response)
+addCashFlow (Account a) req =
+  case Server.decodeJson body of
+    Right item ->
+      (appendToAccount item, Server.stringResponse "successfull")
+    Left err ->
+      (Account a, Server.failureResponse $ "Got an error! " ++ show err)
   where
-    body =
-      Server.requestBody req
-    result =
-      case Server.decodeJson body of
-        Left err -> "Failed to decode request body as a Person. It must be something else"
-        Right p -> "Yay! We have a person named: " <> (name p)
+    body = Server.requestBody req
+    appendToAccount item =
+      Account (a ++ [item])
+
+handleStatement :: Account -> Server.Request -> (Account, Server.Response)
+handleStatement state _ =
+  (state, response)
+  where
+    response =
+      Server.jsonResponse state
+
+initialState :: Account
+initialState = Account []
 
 run :: IO ()
 run =
   Server.startServer
-    [ Server.simpleHandler Server.POST "/person" myHandler
+    [ Server.handlersWithState
+        initialState
+        [ Server.statefulHandler Server.POST "/cashflow" addCashFlow,
+          Server.statefulHandler Server.GET "/statement" handleStatement
+        ]
     ]
