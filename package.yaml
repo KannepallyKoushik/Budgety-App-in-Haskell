@@ -39,6 +39,11 @@ executables:
     dependencies:
       - case-study
 
+default-extensions:
+  - OverloadedStrings
+  - DeriveGeneric
+  - DeriveAnyClass
+
 tests:
   case-study-test:
     main: Spec.hs

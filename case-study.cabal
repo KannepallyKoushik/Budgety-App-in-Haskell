@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 892a700a4f3a85d6d0cc9f02fdb5b289689be17b92a429b10dc0b8203970975a
+-- hash: a01155feea2c771e47d4505a6503ea0602e2c5e98c669844344a5ee18c559a41
 
 name:           case-study
 version:        0.1.0.0
@@ -32,6 +32,7 @@ library
       Paths_case_study
   hs-source-dirs:
       src
+  default-extensions: OverloadedStrings DeriveGeneric DeriveAnyClass
   build-depends:
       aeson
     , base >=4.7 && <5
@@ -45,6 +46,7 @@ executable case-study-exe
       Paths_case_study
   hs-source-dirs:
       app
+  default-extensions: OverloadedStrings DeriveGeneric DeriveAnyClass
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson
@@ -61,6 +63,7 @@ test-suite case-study-test
       Paths_case_study
   hs-source-dirs:
       test
+  default-extensions: OverloadedStrings DeriveGeneric DeriveAnyClass
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       aeson

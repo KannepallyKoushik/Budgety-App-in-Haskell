@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveAnyClass #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE PolyKinds #-}
@@ -10,16 +11,16 @@ import GHC.Generics (Generic)
 import qualified Zero.Server as Server
 
 data Person = Person {name :: String, age :: Int}
-  deriving (Generic, Server.FromJSON, Server.ToJSON)
+  deriving (Generic, Aeson.FromJSON, Aeson.ToJSON)
 
 myHandler :: Server.Request -> Server.Response
 myHandler req =
-  stringResponse result
+  Server.stringResponse result
   where
     body =
-      requestBody req
+      Server.requestBody req
     result =
-      case decodeJson body of
+      case Server.decodeJson body of
         Left err -> "Failed to decode request body as a Person. It must be something else"
         Right p -> "Yay! We have a person named: " <> (name p)
 
