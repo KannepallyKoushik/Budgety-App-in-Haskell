@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: ddf505ea6c4e4e405f457dba5ee256d1e607463aa0f14d6ad8276a84605ea127
+-- hash: 892a700a4f3a85d6d0cc9f02fdb5b289689be17b92a429b10dc0b8203970975a
 
 name:           case-study
 version:        0.1.0.0
@@ -33,7 +33,10 @@ library
   hs-source-dirs:
       src
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
+    , text
+    , zero-bullshit
   default-language: Haskell2010
 
 executable case-study-exe
@@ -44,8 +47,11 @@ executable case-study-exe
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , case-study
+    , text
+    , zero-bullshit
   default-language: Haskell2010
 
 test-suite case-study-test
@@ -57,6 +63,9 @@ test-suite case-study-test
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
   build-depends:
-      base >=4.7 && <5
+      aeson
+    , base >=4.7 && <5
     , case-study
+    , text
+    , zero-bullshit
   default-language: Haskell2010
