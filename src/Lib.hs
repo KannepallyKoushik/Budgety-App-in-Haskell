@@ -16,6 +16,11 @@ data CashFlow = CashFlow {mode :: String, description :: String, value :: Int}
 data Account = Account [CashFlow]
   deriving (Generic, Aeson.FromJSON, Aeson.ToJSON)
 
+data Budget = Budget {budget :: Int, statements :: Account}
+
+-- initialBudget :: Budget
+-- initialBudget = Budget ["{\"budget\":\0,\"statements\": []}"]
+
 addCashFlow :: Account -> Server.Request -> (Account, Server.Response)
 addCashFlow (Account a) req =
   case Server.decodeJson body of
